@@ -7,10 +7,9 @@ require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/google/uuid v1.3.0
 	github.com/mattn/go-sqlite3 v1.14.16
+	github.com/mikenai/gowork/common v0.0.0-20230519131808-3c08a17b270d
 	github.com/prometheus/client_golang v1.14.0
-	github.com/rs/zerolog v1.28.0
 	github.com/stretchr/testify v1.8.1
-	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f
 )
 
 require (
@@ -27,6 +26,7 @@ require (
 	github.com/prometheus/common v0.37.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
+	github.com/rs/zerolog v1.28.0 // indirect
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect

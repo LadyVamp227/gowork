@@ -54,3 +54,44 @@ func TestUsers_Create(t *testing.T) {
 		})
 	}
 }
+func TestUsers_Delete(t *testing.T) {
+	type fields struct {
+		user UsersService
+	}
+	type args struct {
+		w *httptest.ResponseRecorder
+		r *http.Request
+	}
+	tests := []struct {
+		name     string
+		fields   fields
+		args     args
+		wantCode int
+		wantBody []byte
+	}{
+		{
+			name: "success",
+			fields: fields{
+				user: &UsersServiceMock{
+					DeleteFunc: func(ctx context.Context, id string) error {
+						assert.Equal(t, "1", id)
+						return nil
+					},
+				},
+			},
+			args: args{
+				w: httptest.NewRecorder(),
+				r: httptest.NewRequest(http.MethodDelete, "/1", strings.NewReader("")),
+			},
+			wantCode: http.StatusNoContent,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			u := NewUsers(tt.fields.user)
+			u.Routes().ServeHTTP(tt.args.w, tt.args.r)
+
+			assert.Equal(t, tt.wantCode, tt.args.w.Code)
+		})
+	}
+}
