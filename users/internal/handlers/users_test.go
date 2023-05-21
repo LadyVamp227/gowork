@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -84,6 +85,21 @@ func TestUsers_Delete(t *testing.T) {
 				r: httptest.NewRequest(http.MethodDelete, "/1", strings.NewReader("")),
 			},
 			wantCode: http.StatusNoContent,
+		},
+		{
+			name: "error",
+			fields: fields{
+				user: &UsersServiceMock{
+					DeleteFunc: func(ctx context.Context, id string) error {
+						return errors.New("error")
+					},
+				},
+			},
+			args: args{
+				w: httptest.NewRecorder(),
+				r: httptest.NewRequest(http.MethodDelete, "/1", nil),
+			},
+			wantCode: http.StatusInternalServerError,
 		},
 	}
 	for _, tt := range tests {
