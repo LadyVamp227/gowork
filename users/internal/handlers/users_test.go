@@ -101,6 +101,21 @@ func TestUsers_Delete(t *testing.T) {
 			},
 			wantCode: http.StatusInternalServerError,
 		},
+		{
+			name: "not found error",
+			fields: fields{
+				user: &UsersServiceMock{
+					DeleteFunc: func(ctx context.Context, id string) error {
+						return models.NotFoundErr
+					},
+				},
+			},
+			args: args{
+				w: httptest.NewRecorder(),
+				r: httptest.NewRequest(http.MethodDelete, "/1", nil),
+			},
+			wantCode: http.StatusNotFound,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
