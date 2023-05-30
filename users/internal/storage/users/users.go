@@ -44,10 +44,15 @@ func (s Storage) GetByID(ctx context.Context, id string) (models.User, error) {
 
 func (s Storage) Delete(ctx context.Context, id string) error {
 
-	_, err := s.db.ExecContext(ctx, "DELETE id FROM users WHERE id=?", id)
+	res, err := s.db.ExecContext(ctx, "DELETE id FROM users WHERE id=?", id)
 
 	if err != nil {
 		return fmt.Errorf("failed to execute delete: %w", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if rowsAffected == 0 {
+		return models.NotFoundErr
 	}
 
 	return nil
